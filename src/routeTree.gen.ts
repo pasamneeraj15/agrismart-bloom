@@ -10,17 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as CropsRouteImport } from './routes/crops'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FertilizersRouteImport } from './routes/fertilizers'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PesticidesRouteImport } from './routes/pesticides'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ScanRouteImport } from './routes/scan'
+import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as CropsCropIdRouteImport } from './routes/crops.$cropId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CropsRoute = CropsRouteImport.update({
@@ -53,6 +61,16 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScanRoute = ScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeatherRoute = WeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CropsCropIdRoute = CropsCropIdRouteImport.update({
   id: '/$cropId',
   path: '/$cropId',
@@ -61,76 +79,97 @@ const CropsCropIdRoute = CropsCropIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/crops': typeof CropsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/fertilizers': typeof FertilizersRoute
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
+  '/scan': typeof ScanRoute
+  '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/crops': typeof CropsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/fertilizers': typeof FertilizersRoute
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
+  '/scan': typeof ScanRoute
+  '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/crops': typeof CropsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/fertilizers': typeof FertilizersRoute
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
+  '/scan': typeof ScanRoute
+  '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/alerts'
     | '/crops'
     | '/dashboard'
     | '/fertilizers'
     | '/login'
     | '/pesticides'
     | '/register'
+    | '/scan'
+    | '/weather'
     | '/crops/$cropId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/alerts'
     | '/crops'
     | '/dashboard'
     | '/fertilizers'
     | '/login'
     | '/pesticides'
     | '/register'
+    | '/scan'
+    | '/weather'
     | '/crops/$cropId'
   id:
     | '__root__'
     | '/'
+    | '/alerts'
     | '/crops'
     | '/dashboard'
     | '/fertilizers'
     | '/login'
     | '/pesticides'
     | '/register'
+    | '/scan'
+    | '/weather'
     | '/crops/$cropId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertsRoute: typeof AlertsRoute
   CropsRoute: typeof CropsRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   FertilizersRoute: typeof FertilizersRoute
   LoginRoute: typeof LoginRoute
   PesticidesRoute: typeof PesticidesRoute
   RegisterRoute: typeof RegisterRoute
+  ScanRoute: typeof ScanRoute
+  WeatherRoute: typeof WeatherRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +179,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crops': {
@@ -184,6 +230,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scan': {
+      id: '/scan'
+      path: '/scan'
+      fullPath: '/scan'
+      preLoaderRoute: typeof ScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weather': {
+      id: '/weather'
+      path: '/weather'
+      fullPath: '/weather'
+      preLoaderRoute: typeof WeatherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crops/$cropId': {
       id: '/crops/$cropId'
       path: '/$cropId'
@@ -206,12 +266,15 @@ const CropsRouteWithChildren = CropsRoute._addFileChildren(CropsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertsRoute: AlertsRoute,
   CropsRoute: CropsRouteWithChildren,
   DashboardRoute: DashboardRoute,
   FertilizersRoute: FertilizersRoute,
   LoginRoute: LoginRoute,
   PesticidesRoute: PesticidesRoute,
   RegisterRoute: RegisterRoute,
+  ScanRoute: ScanRoute,
+  WeatherRoute: WeatherRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
