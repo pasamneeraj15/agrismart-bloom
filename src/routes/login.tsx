@@ -3,10 +3,13 @@ import { Leaf } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import authFarm from "@/assets/auth-farm.jpg";
+import logo from "@/assets/logo-agrismart.png";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
