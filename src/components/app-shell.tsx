@@ -4,7 +4,6 @@ import {
   Bug,
   CloudSun,
   LayoutDashboard,
-  Leaf,
   Menu,
   ScanLine,
   Settings,
@@ -40,9 +39,13 @@ const unread = alerts.filter((a) => !a.read).length;
 export function Brand({ className }: { className?: string }) {
   return (
     <Link to="/" className={cn("flex items-center gap-2", className)}>
-      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-soft">
-        <Leaf className="size-5" />
-      </span>
+      <img
+        src={logo}
+        alt="AgriSmart logo"
+        width={40}
+        height={40}
+        className="size-10 shrink-0 rounded-xl bg-primary-soft p-1"
+      />
       <span className="font-display text-lg font-bold tracking-tight">AgriSmart</span>
     </Link>
   );
