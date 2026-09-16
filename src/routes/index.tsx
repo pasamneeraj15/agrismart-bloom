@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell, Bug, CloudSun, FlaskConical, Leaf, ScanLine, Sprout, ArrowRight } from "lucide-react";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import heroFarm from "@/assets/hero-farm.jpg";
+import logo from "@/assets/logo-agrismart.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,12 +40,11 @@ function Landing() {
       <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur">
         <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-2">
-            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-soft">
-              <Leaf className="size-5" />
-            </span>
+            <img src={logo} alt="AgriSmart logo" width={40} height={40} className="size-10 shrink-0 rounded-xl bg-primary-soft p-1" />
             <span className="truncate font-display text-lg font-bold">AgriSmart</span>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+            <ThemeToggle />
             <Button asChild variant="ghost" className="hidden sm:inline-flex">
               <Link to="/dashboard">Dashboard</Link>
             </Button>

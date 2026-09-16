@@ -95,7 +95,7 @@ function Dashboard() {
             </div>
             <div className="mt-4 rounded-xl bg-primary-soft p-3 text-sm">
               <span className="font-semibold">Advisory: </span>
-              {forecast[0].advisory}
+              {forecast[0]?.advisory}
             </div>
             <div className="mt-4">
               <div className="flex items-center justify-between text-sm">

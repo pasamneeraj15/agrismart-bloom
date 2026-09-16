@@ -4,7 +4,6 @@ import {
   Bug,
   CloudSun,
   LayoutDashboard,
-  Leaf,
   Menu,
   ScanLine,
   Settings,
@@ -15,10 +14,12 @@ import {
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { alerts } from "@/data/agri";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo-agrismart.png";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -40,9 +41,13 @@ const unread = alerts.filter((a) => !a.read).length;
 export function Brand({ className }: { className?: string }) {
   return (
     <Link to="/" className={cn("flex items-center gap-2", className)}>
-      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-soft">
-        <Leaf className="size-5" />
-      </span>
+      <img
+        src={logo}
+        alt="AgriSmart logo"
+        width={40}
+        height={40}
+        className="size-10 shrink-0 rounded-xl bg-primary-soft p-1"
+      />
       <span className="font-display text-lg font-bold tracking-tight">AgriSmart</span>
     </Link>
   );
@@ -138,8 +143,9 @@ export function AppShell({
               <h1 className="truncate text-lg font-bold sm:text-xl">{title}</h1>
               {subtitle && <p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>}
             </div>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {action}
+              <ThemeToggle />
               <Button asChild variant="ghost" size="icon" className="relative" aria-label="Alerts">
                 <Link to="/alerts">
                   <Bell className="size-5" />
