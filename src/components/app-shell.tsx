@@ -14,10 +14,12 @@ import {
 import type { ReactNode } from "react";
 import { useState } from "react";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { alerts } from "@/data/agri";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo-agrismart.png";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
