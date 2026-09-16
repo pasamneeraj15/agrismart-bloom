@@ -143,8 +143,9 @@ export function AppShell({
               <h1 className="truncate text-lg font-bold sm:text-xl">{title}</h1>
               {subtitle && <p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>}
             </div>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               {action}
+              <ThemeToggle />
               <Button asChild variant="ghost" size="icon" className="relative" aria-label="Alerts">
                 <Link to="/alerts">
                   <Bell className="size-5" />
