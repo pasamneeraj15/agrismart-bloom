@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell, Bug, CloudSun, FlaskConical, Leaf, ScanLine, Sprout, ArrowRight } from "lucide-react";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import heroFarm from "@/assets/hero-farm.jpg";
+import logo from "@/assets/logo-agrismart.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -58,7 +58,7 @@ function SettingsPage() {
   }
 
   return (
-    <AppShell title="Settings" subtitle="Your profile, farm details and alert preferences" action={<ThemeToggle />}>
+    <AppShell title="Settings" subtitle="Your profile, farm details and alert preferences">
       <form onSubmit={save} className="mx-auto max-w-4xl space-y-6">
         <section className="card-soft p-5 sm:p-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
