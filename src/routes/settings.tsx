@@ -197,7 +197,8 @@ function SettingsPage() {
                   aria-label={title}
                 />
               </li>
-            ))}
+              );
+            })}
           </ul>
         </section>
 
