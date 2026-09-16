@@ -183,14 +183,16 @@ function SettingsPage() {
               ["tasks", "Task reminders", "Sprays, top dressing and harvest windows"],
               ["market", "Market prices", "Daily mandi rates for your crops"],
               ["sms", "SMS alerts", "Send critical alerts by text message too"],
-            ].map(([key, title, body]) => (
+            ].map((row) => {
+              const [key, title, body] = row as [keyof typeof notify, string, string];
+              return (
               <li key={key} className="flex items-center justify-between gap-4 py-3.5">
                 <div className="min-w-0">
                   <p className="font-medium">{title}</p>
                   <p className="text-sm text-muted-foreground">{body}</p>
                 </div>
                 <Switch
-                  checked={notify[key as keyof typeof notify]}
+                  checked={notify[key]}
                   onCheckedChange={(v) => setNotify((n) => ({ ...n, [key]: v }))}
                   aria-label={title}
                 />
