@@ -57,12 +57,22 @@ function RegisterPage() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-primary-soft px-4 py-10">
-      <div className="w-full max-w-xl">
+    <div className="relative grid min-h-screen place-items-center px-4 py-10">
+      <img
+        src={authFarm}
+        alt="Farmer walking through a green field at sunrise"
+        width={1600}
+        height={1008}
+        loading="lazy"
+        className="absolute inset-0 size-full object-cover"
+      />
+      <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px] dark:bg-background/80" />
+      <div className="absolute right-4 top-4 z-10">
+        <ThemeToggle />
+      </div>
+      <div className="relative z-10 w-full max-w-xl">
         <Link to="/" className="mx-auto flex w-fit items-center gap-2">
-          <span className="grid size-10 place-items-center rounded-xl bg-primary text-primary-foreground shadow-soft">
-            <Leaf className="size-5" />
-          </span>
+          <img src={logo} alt="AgriSmart logo" width={44} height={44} className="size-11 rounded-xl bg-primary-soft p-1" />
           <span className="font-display text-xl font-bold">AgriSmart</span>
         </Link>
 
