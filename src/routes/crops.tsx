@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { crops } from "@/data/agri";
+import { cropImages } from "@/data/crop-images";
 
 export const Route = createFileRoute("/crops")({
   head: () => ({
@@ -95,12 +96,17 @@ function CropsPage() {
               key={c.id}
               to="/crops/$cropId"
               params={{ cropId: c.id }}
-              className="card-soft block p-5 hover:-translate-y-0.5"
+              className="card-soft block overflow-hidden hover:-translate-y-0.5"
             >
-              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary-soft text-2xl">
-                  {c.emoji}
-                </span>
+              <img
+                src={cropImages[c.id]}
+                alt={`${c.name} crop`}
+                width={800}
+                height={600}
+                loading="lazy"
+                className="h-40 w-full object-cover"
+              />
+              <div className="p-5 pb-0">
                 <div className="min-w-0">
                   <h2 className="truncate text-lg font-semibold">{c.name}</h2>
                   <p className="text-xs text-muted-foreground">
@@ -108,8 +114,8 @@ function CropsPage() {
                   </p>
                 </div>
               </div>
-              <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">{c.summary}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <p className="mt-3 line-clamp-2 px-5 text-sm text-muted-foreground">{c.summary}</p>
+              <div className="mt-4 flex flex-wrap gap-2 px-5 pb-5 text-xs">
                 <Badge variant="secondary" className="gap-1">
                   <Timer className="size-3" /> {c.durationDays} days
                 </Badge>

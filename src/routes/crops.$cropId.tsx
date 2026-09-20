@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { crops } from "@/data/agri";
+import { cropImages } from "@/data/crop-images";
 
 export const Route = createFileRoute("/crops/$cropId")({
   loader: ({ params }) => {
@@ -42,17 +43,21 @@ function CropDetail() {
           </Link>
         </Button>
 
-        <section className="card-soft p-5 sm:p-6">
-          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary-soft text-3xl">
-              {crop.emoji}
-            </span>
+        <section className="card-soft overflow-hidden">
+          <img
+            src={cropImages[crop.id]}
+            alt={`${crop.name} crop in the field`}
+            width={800}
+            height={600}
+            className="h-52 w-full object-cover sm:h-64"
+          />
+          <div className="p-5 pb-0 sm:p-6 sm:pb-0">
             <div className="min-w-0">
               <h2 className="truncate text-2xl font-bold">{crop.name}</h2>
               <p className="text-sm text-muted-foreground">{crop.summary}</p>
             </div>
           </div>
-          <dl className="mt-5 grid gap-3 sm:grid-cols-4">
+          <dl className="mt-5 grid gap-3 p-5 pt-0 sm:grid-cols-4 sm:p-6 sm:pt-0">
             {[
               [Timer, "Duration", `${crop.durationDays} days`],
               [Droplets, "Water need", crop.waterNeed],
