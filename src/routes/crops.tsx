@@ -95,9 +95,17 @@ function CropsPage() {
               key={c.id}
               to="/crops/$cropId"
               params={{ cropId: c.id }}
-              className="card-soft block p-5 hover:-translate-y-0.5"
+              className="card-soft block overflow-hidden hover:-translate-y-0.5"
             >
-              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
+              <img
+                src={cropImages[c.id]}
+                alt={`${c.name} crop`}
+                width={800}
+                height={600}
+                loading="lazy"
+                className="h-40 w-full object-cover"
+              />
+              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 p-5 pb-0">
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary-soft text-2xl">
                   {c.emoji}
                 </span>
