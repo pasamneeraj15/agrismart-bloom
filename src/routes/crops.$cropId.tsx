@@ -42,8 +42,15 @@ function CropDetail() {
           </Link>
         </Button>
 
-        <section className="card-soft p-5 sm:p-6">
-          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
+        <section className="card-soft overflow-hidden">
+          <img
+            src={cropImages[crop.id]}
+            alt={`${crop.name} crop in the field`}
+            width={800}
+            height={600}
+            className="h-52 w-full object-cover sm:h-64"
+          />
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
             <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary-soft text-3xl">
               {crop.emoji}
             </span>
