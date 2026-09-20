@@ -117,8 +117,8 @@ function CropsPage() {
                   </p>
                 </div>
               </div>
-              <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">{c.summary}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <p className="mt-3 line-clamp-2 px-5 text-sm text-muted-foreground">{c.summary}</p>
+              <div className="mt-4 flex flex-wrap gap-2 px-5 pb-5 text-xs">
                 <Badge variant="secondary" className="gap-1">
                   <Timer className="size-3" /> {c.durationDays} days
                 </Badge>
