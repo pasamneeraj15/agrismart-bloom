@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { crops } from "@/data/agri";
+import { cropImages } from "@/data/crop-images";
 
 export const Route = createFileRoute("/crops/$cropId")({
   loader: ({ params }) => {
