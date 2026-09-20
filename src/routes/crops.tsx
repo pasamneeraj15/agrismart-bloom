@@ -106,10 +106,7 @@ function CropsPage() {
                 loading="lazy"
                 className="h-40 w-full object-cover"
               />
-              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 p-5 pb-0">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary-soft text-2xl">
-                  {c.emoji}
-                </span>
+              <div className="p-5 pb-0">
                 <div className="min-w-0">
                   <h2 className="truncate text-lg font-semibold">{c.name}</h2>
                   <p className="text-xs text-muted-foreground">
