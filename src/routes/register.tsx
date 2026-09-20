@@ -1,13 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Leaf } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cropNames } from "@/data/agri";
+import authFarm from "@/assets/auth-farm.jpg";
+import logo from "@/assets/logo-agrismart.png";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
