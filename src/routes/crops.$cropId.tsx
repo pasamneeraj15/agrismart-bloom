@@ -60,7 +60,7 @@ function CropDetail() {
               <p className="text-sm text-muted-foreground">{crop.summary}</p>
             </div>
           </div>
-          <dl className="mt-5 grid gap-3 sm:grid-cols-4">
+          <dl className="mt-5 grid gap-3 p-5 pt-0 sm:grid-cols-4 sm:p-6 sm:pt-0">
             {[
               [Timer, "Duration", `${crop.durationDays} days`],
               [Droplets, "Water need", crop.waterNeed],
