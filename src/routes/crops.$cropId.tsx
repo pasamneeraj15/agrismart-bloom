@@ -51,10 +51,7 @@ function CropDetail() {
             height={600}
             className="h-52 w-full object-cover sm:h-64"
           />
-          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4 p-5 pb-0 sm:p-6 sm:pb-0">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary-soft text-3xl">
-              {crop.emoji}
-            </span>
+          <div className="p-5 pb-0 sm:p-6 sm:pb-0">
             <div className="min-w-0">
               <h2 className="truncate text-2xl font-bold">{crop.name}</h2>
               <p className="text-sm text-muted-foreground">{crop.summary}</p>
