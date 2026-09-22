@@ -157,8 +157,8 @@ function RegisterPage() {
               <Input id="confirm" type="password" value={form.confirm} onChange={(e) => set("confirm")(e.target.value)} placeholder="••••••••" />
               {errors.confirm && <p className="text-xs text-destructive">{errors.confirm}</p>}
             </div>
-            <Button type="submit" size="lg" className="sm:col-span-2">
-              Create account
+            <Button type="submit" size="lg" className="sm:col-span-2" disabled={busy}>
+              {busy ? "Creating account…" : "Create account"}
             </Button>
           </form>
 
