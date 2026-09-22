@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 import authFarm from "@/assets/auth-farm.jpg";
 import logo from "@/assets/logo-agrismart.png";
 
@@ -26,16 +27,31 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     const next: typeof errors = {};
     if (!/^\S+@\S+\.\S+$/.test(email)) next.email = "Enter a valid email address";
     if (password.length < 6) next.password = "Password must be at least 6 characters";
     setErrors(next);
     if (Object.keys(next).length) return;
-    toast.success("Welcome back to AgriSmart");
+
+    setBusy(true);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setBusy(false);
+
+    if (error) {
+      toast.error(error.message === "Invalid login credentials" ? "Wrong email or password" : error.message);
+      return;
+    }
+
+    const name = (data.user?.user_metadata?.["display_name"] as string | undefined) ?? "";
+    toast.success(name ? `Welcome back, ${name.split(" ")[0]}!` : "Welcome back to AgriSmart");
     navigate({ to: "/dashboard" });
   }
 
