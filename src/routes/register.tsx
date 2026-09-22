@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cropNames } from "@/data/agri";
+import { supabase } from "@/integrations/supabase/client";
 import authFarm from "@/assets/auth-farm.jpg";
 import logo from "@/assets/logo-agrismart.png";
 
@@ -37,10 +38,11 @@ function RegisterPage() {
     confirm: "",
   });
   const [errors, setErrors] = useState<Errors>({});
+  const [busy, setBusy] = useState(false);
 
   const set = (key: keyof typeof form) => (value: string) => setForm((f) => ({ ...f, [key]: value }));
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     const next: Errors = {};
     if (form.name.trim().length < 2) next.name = "Enter your full name";
@@ -52,7 +54,35 @@ function RegisterPage() {
     if (form.confirm !== form.password) next.confirm = "Passwords do not match";
     setErrors(next);
     if (Object.keys(next).length) return;
-    toast.success("Farm profile created — welcome to AgriSmart");
+
+    setBusy(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email.trim(),
+      password: form.password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          display_name: form.name.trim(),
+          phone: form.phone,
+          acres: form.acres,
+          main_crop: form.crop,
+        },
+      },
+    });
+    setBusy(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (!data.session) {
+      toast.success("Check your email to confirm your account, then log in.");
+      navigate({ to: "/login" });
+      return;
+    }
+
+    toast.success(`Farm profile created — welcome, ${form.name.trim().split(" ")[0]}!`);
     navigate({ to: "/dashboard" });
   }
 
@@ -127,8 +157,8 @@ function RegisterPage() {
               <Input id="confirm" type="password" value={form.confirm} onChange={(e) => set("confirm")(e.target.value)} placeholder="••••••••" />
               {errors.confirm && <p className="text-xs text-destructive">{errors.confirm}</p>}
             </div>
-            <Button type="submit" size="lg" className="sm:col-span-2">
-              Create account
+            <Button type="submit" size="lg" className="sm:col-span-2" disabled={busy}>
+              {busy ? "Creating account…" : "Create account"}
             </Button>
           </form>
 

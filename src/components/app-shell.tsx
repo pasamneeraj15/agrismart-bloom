@@ -1,4 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { toast } from "sonner";
 import {
   Bell,
   Bug,
@@ -18,6 +19,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { alerts } from "@/data/agri";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-agrismart.png";
 
@@ -88,6 +90,47 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
         );
       })}
     </nav>
+  );
+}
+
+function UserCard({ onNavigate }: { onNavigate?: () => void }) {
+  const { user, displayName, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    onNavigate?.();
+    await signOut();
+    toast.success("You have been signed out");
+    navigate({ to: "/login", replace: true });
+  }
+
+  if (!user) {
+    return (
+      <div className="rounded-2xl bg-primary-soft p-3">
+        <p className="text-sm font-semibold">You are browsing the demo</p>
+        <p className="text-xs text-muted-foreground">Log in to see your own farm profile</p>
+        <Button asChild size="sm" className="mt-2 w-full">
+          <Link to="/login" onClick={onNavigate}>
+            Log in
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl bg-primary-soft p-3">
+      <p className="truncate text-sm font-semibold">{displayName || "Farmer"}</p>
+      <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="mt-2 w-full justify-start gap-2 px-2"
+        onClick={handleSignOut}
+      >
+        <LogOut className="size-4" /> Sign out
+      </Button>
+    </div>
   );
 }
 
