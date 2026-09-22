@@ -107,8 +107,8 @@ function LoginPage() {
               </label>
               <span className="text-primary">Forgot password?</span>
             </div>
-            <Button type="submit" className="w-full" size="lg">
-              Log in
+            <Button type="submit" className="w-full" size="lg" disabled={busy}>
+              {busy ? "Logging in…" : "Log in"}
             </Button>
           </form>
 
