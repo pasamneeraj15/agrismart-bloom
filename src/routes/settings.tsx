@@ -27,19 +27,47 @@ export const Route = createFileRoute("/settings")({
 });
 
 function SettingsPage() {
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
-    name: "Ramesh Patel",
-    phone: "9876543210",
-    email: "ramesh@farm.in",
-    village: "Chennaraopet, Warangal",
-    farmName: "Patel Green Farms",
-    acres: "24",
+    name: "",
+    phone: "",
+    email: "",
+    village: "",
+    farmName: "",
+    acres: "",
     mainCrop: "Maize",
-    soilType: "Black cotton soil",
-    notes: "Six fields, drip irrigation in Field D and F.",
+    soilType: "",
+    notes: "",
     units: "Metric (acre, kg, °C)",
     language: "English",
   });
+
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    supabase
+      .from("profiles")
+      .select("display_name, phone, village, farm_name, acres, main_crop")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        setProfile((p) => ({
+          ...p,
+          email: user.email ?? "",
+          name: data?.display_name ?? "",
+          phone: data?.phone ?? "",
+          village: data?.village ?? "",
+          farmName: data?.farm_name ?? "",
+          acres: data?.acres != null ? String(data.acres) : "",
+          mainCrop: data?.main_crop ?? p.mainCrop,
+        }));
+      });
+    return () => {
+      active = false;
+    };
+  }, [user]);
 
   const [notify, setNotify] = useState({
     weather: true,

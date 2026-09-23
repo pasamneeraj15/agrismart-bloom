@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 
 const features = [
   { icon: Sprout, title: "Crop catalog", body: "Season, soil, irrigation and pest profiles for every crop you grow." },
-  { icon: Bug, title: "Pesticide directory", body: "Target pests, dosage per acre and safety rules, filtered by crop." },
+  { icon: Bug, title: "Plant protection", body: "Which categories target which pests, with safety guidance by crop." },
   { icon: FlaskConical, title: "Fertilizer guide", body: "Organic, inorganic and biofertilizer options with exact rates." },
   { icon: CloudSun, title: "Weather advisories", body: "Five-day forecast translated into spray and irrigation decisions." },
   { icon: ScanLine, title: "Plant scan", body: "Upload a leaf photo and get a diagnosis with a treatment plan." },
