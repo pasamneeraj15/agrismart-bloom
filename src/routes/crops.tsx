@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Droplets, Search, Timer } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Droplets, Search, Timer, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
+import { SafeImage } from "@/components/safe-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,9 +25,26 @@ export const Route = createFileRoute("/crops")({
 const seasons = ["All", "Kharif", "Rabi", "Zaid", "Year-round"] as const;
 
 function CropsPage() {
+  const [term, setTerm] = useState("");
   const [query, setQuery] = useState("");
   const [season, setSeason] = useState<(typeof seasons)[number]>("All");
   const [crop, setCrop] = useState("All");
+
+  // Live search: apply what is typed shortly after typing stops.
+  useEffect(() => {
+    const id = setTimeout(() => setQuery(term), 200);
+    return () => clearTimeout(id);
+  }, [term]);
+
+  function runSearch(e: React.FormEvent) {
+    e.preventDefault();
+    setQuery(term);
+  }
+
+  function clearSearch() {
+    setTerm("");
+    setQuery("");
+  }
 
   const filtered = useMemo(
     () =>
@@ -46,16 +64,32 @@ function CropsPage() {
     <AppShell title="Crop catalog" subtitle="Growing, soil and pest profiles for your crops">
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="card-soft space-y-4 p-4 sm:p-5">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search crops, categories or keywords"
-              className="pl-9"
-              aria-label="Search crops"
-            />
-          </div>
+          <form onSubmit={runSearch} className="flex gap-2">
+            <div className="relative min-w-0 flex-1">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                placeholder="Search crops by name, category or keyword"
+                className="pl-9 pr-9"
+                aria-label="Search crops"
+              />
+              {term && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </div>
+            <Button type="submit" className="shrink-0 gap-2">
+              <Search className="size-4" />
+              <span className="hidden sm:inline">Search</span>
+            </Button>
+          </form>
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
               {["All", ...crops.map((c) => c.name)].map((name) => (
@@ -98,13 +132,13 @@ function CropsPage() {
               params={{ cropId: c.id }}
               className="card-soft block overflow-hidden hover:-translate-y-0.5"
             >
-              <img
+              <SafeImage
                 src={cropImages[c.id]}
-                alt={`${c.name} crop`}
+                alt={`${c.name} growing in a field`}
                 width={800}
                 height={600}
                 loading="lazy"
-                className="h-40 w-full object-cover"
+                className="h-40 w-full bg-primary-soft object-cover"
               />
               <div className="p-5 pb-0">
                 <div className="min-w-0">
@@ -129,8 +163,19 @@ function CropsPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="card-soft p-10 text-center text-muted-foreground">
-            No crops match your search. Try clearing the filters.
+          <div className="card-soft grid place-items-center gap-3 p-10 text-center text-muted-foreground">
+            <p>No results found{query ? ` for “${query}”` : ""}. Try another crop name.</p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                clearSearch();
+                setCrop("All");
+                setSeason("All");
+              }}
+            >
+              Clear search and filters
+            </Button>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Languages, MapPin, Ruler, Save, Sprout, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
@@ -13,6 +13,8 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { cropNames } from "@/data/agri";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -27,19 +29,47 @@ export const Route = createFileRoute("/settings")({
 });
 
 function SettingsPage() {
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
-    name: "Ramesh Patel",
-    phone: "9876543210",
-    email: "ramesh@farm.in",
-    village: "Chennaraopet, Warangal",
-    farmName: "Patel Green Farms",
-    acres: "24",
+    name: "",
+    phone: "",
+    email: "",
+    village: "",
+    farmName: "",
+    acres: "",
     mainCrop: "Maize",
-    soilType: "Black cotton soil",
-    notes: "Six fields, drip irrigation in Field D and F.",
+    soilType: "",
+    notes: "",
     units: "Metric (acre, kg, °C)",
     language: "English",
   });
+
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    supabase
+      .from("profiles")
+      .select("display_name, phone, village, farm_name, acres, main_crop")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        setProfile((p) => ({
+          ...p,
+          email: user.email ?? "",
+          name: data?.display_name ?? "",
+          phone: data?.phone ?? "",
+          village: data?.village ?? "",
+          farmName: data?.farm_name ?? "",
+          acres: data?.acres != null ? String(data.acres) : "",
+          mainCrop: data?.main_crop ?? p.mainCrop,
+        }));
+      });
+    return () => {
+      active = false;
+    };
+  }, [user]);
 
   const [notify, setNotify] = useState({
     weather: true,
@@ -52,8 +82,30 @@ function SettingsPage() {
 
   const set = (key: keyof typeof profile) => (value: string) => setProfile((p) => ({ ...p, [key]: value }));
 
-  function save(e: React.FormEvent) {
+  async function save(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("Log in to save your farm profile");
+      return;
+    }
+
+    setSaving(true);
+    const { error } = await supabase.from("profiles").upsert({
+      id: user.id,
+      display_name: profile.name.trim() || null,
+      phone: profile.phone || null,
+      village: profile.village || null,
+      farm_name: profile.farmName || null,
+      acres: profile.acres ? Number(profile.acres) : null,
+      main_crop: profile.mainCrop || null,
+    });
+    setSaving(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Settings saved");
   }
 
@@ -203,8 +255,8 @@ function SettingsPage() {
         </section>
 
         <div className="flex flex-wrap gap-3">
-          <Button type="submit" size="lg" className="gap-2">
-            <Save className="size-4" /> Save changes
+          <Button type="submit" size="lg" className="gap-2" disabled={saving}>
+            <Save className="size-4" /> {saving ? "Saving…" : "Save changes"}
           </Button>
           <Button type="reset" size="lg" variant="outline">
             Discard

@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Bug, Droplets, Leaf, Lightbulb, Sprout, Timer, TrendingUp } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
+import { SafeImage } from "@/components/safe-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { crops } from "@/data/agri";
@@ -44,7 +45,7 @@ function CropDetail() {
         </Button>
 
         <section className="card-soft overflow-hidden">
-          <img
+          <SafeImage
             src={cropImages[crop.id]}
             alt={`${crop.name} crop in the field`}
             width={800}

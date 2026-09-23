@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell, Bug, CloudSun, FlaskConical, Leaf, ScanLine, Sprout, ArrowRight } from "lucide-react";
 
+import { toast } from "sonner";
+
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SafeImage } from "@/components/safe-image";
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import heroFarm from "@/assets/hero-farm.jpg";
 import logo from "@/assets/logo-agrismart.png";
@@ -27,7 +31,7 @@ export const Route = createFileRoute("/")({
 
 const features = [
   { icon: Sprout, title: "Crop catalog", body: "Season, soil, irrigation and pest profiles for every crop you grow." },
-  { icon: Bug, title: "Pesticide directory", body: "Target pests, dosage per acre and safety rules, filtered by crop." },
+  { icon: Bug, title: "Plant protection", body: "Which categories target which pests, with safety guidance by crop." },
   { icon: FlaskConical, title: "Fertilizer guide", body: "Organic, inorganic and biofertilizer options with exact rates." },
   { icon: CloudSun, title: "Weather advisories", body: "Five-day forecast translated into spray and irrigation decisions." },
   { icon: ScanLine, title: "Plant scan", body: "Upload a leaf photo and get a diagnosis with a treatment plan." },
@@ -35,6 +39,8 @@ const features = [
 ];
 
 function Landing() {
+  const { user, displayName, signOut } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur">
@@ -45,15 +51,37 @@ function Landing() {
           </div>
           <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             <ThemeToggle />
-            <Button asChild variant="ghost" className="hidden sm:inline-flex">
-              <Link to="/dashboard">Dashboard</Link>
-            </Button>
-            <Button asChild variant="ghost">
-              <Link to="/login">Log in</Link>
-            </Button>
-            <Button asChild>
-              <Link to="/register">Get started</Link>
-            </Button>
+            {user ? (
+              <>
+                <span className="hidden max-w-32 truncate text-sm font-medium sm:inline">
+                  {displayName || user.email}
+                </span>
+                <Button asChild variant="ghost">
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={async () => {
+                    await signOut();
+                    toast.success("You have been signed out");
+                  }}
+                >
+                  Sign out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="ghost" className="hidden sm:inline-flex">
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+                <Button asChild variant="ghost">
+                  <Link to="/login">Log in</Link>
+                </Button>
+                <Button asChild>
+                  <Link to="/register">Get started</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -97,7 +125,7 @@ function Landing() {
             </dl>
           </div>
           <div className="overflow-hidden rounded-3xl border border-border shadow-lift">
-            <img
+            <SafeImage
               src={heroFarm}
               alt="Rows of young crops on a green farm at golden hour"
               width={1600}

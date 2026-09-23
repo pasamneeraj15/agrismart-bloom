@@ -154,15 +154,7 @@ export function AppShell({
         <div className="mt-7 min-h-0 flex-1 overflow-y-auto">
           <NavLinks />
         </div>
-        <div className="rounded-2xl bg-primary-soft p-3">
-          <p className="text-sm font-semibold">Ramesh Patel</p>
-          <p className="text-xs text-muted-foreground">Warangal · 24 acres</p>
-          <Button asChild variant="ghost" size="sm" className="mt-2 w-full justify-start gap-2 px-2">
-            <Link to="/login">
-              <LogOut className="size-4" /> Sign out
-            </Link>
-          </Button>
-        </div>
+        <UserCard />
       </aside>
 
       <div className="lg:pl-64">
@@ -179,6 +171,9 @@ export function AppShell({
                 <Brand />
                 <div className="mt-6">
                   <NavLinks onNavigate={() => setOpen(false)} />
+                </div>
+                <div className="mt-6">
+                  <UserCard onNavigate={() => setOpen(false)} />
                 </div>
               </SheetContent>
             </Sheet>
