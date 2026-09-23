@@ -255,8 +255,8 @@ function SettingsPage() {
         </section>
 
         <div className="flex flex-wrap gap-3">
-          <Button type="submit" size="lg" className="gap-2">
-            <Save className="size-4" /> Save changes
+          <Button type="submit" size="lg" className="gap-2" disabled={saving}>
+            <Save className="size-4" /> {saving ? "Saving…" : "Save changes"}
           </Button>
           <Button type="reset" size="lg" variant="outline">
             Discard
