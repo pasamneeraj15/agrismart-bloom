@@ -125,7 +125,7 @@ function Landing() {
             </dl>
           </div>
           <div className="overflow-hidden rounded-3xl border border-border shadow-lift">
-            <img
+            <SafeImage
               src={heroFarm}
               alt="Rows of young crops on a green farm at golden hour"
               width={1600}
