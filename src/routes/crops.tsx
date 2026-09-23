@@ -3,6 +3,7 @@ import { Droplets, Search, Timer, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
+import { SafeImage } from "@/components/safe-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -131,13 +132,13 @@ function CropsPage() {
               params={{ cropId: c.id }}
               className="card-soft block overflow-hidden hover:-translate-y-0.5"
             >
-              <img
+              <SafeImage
                 src={cropImages[c.id]}
-                alt={`${c.name} crop`}
+                alt={`${c.name} growing in a field`}
                 width={800}
                 height={600}
                 loading="lazy"
-                className="h-40 w-full object-cover"
+                className="h-40 w-full bg-primary-soft object-cover"
               />
               <div className="p-5 pb-0">
                 <div className="min-w-0">
@@ -162,8 +163,19 @@ function CropsPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="card-soft p-10 text-center text-muted-foreground">
-            No crops match your search. Try clearing the filters.
+          <div className="card-soft grid place-items-center gap-3 p-10 text-center text-muted-foreground">
+            <p>No results found{query ? ` for “${query}”` : ""}. Try another crop name.</p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                clearSearch();
+                setCrop("All");
+                setSeason("All");
+              }}
+            >
+              Clear search and filters
+            </Button>
           </div>
         )}
       </div>
