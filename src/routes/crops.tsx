@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Droplets, Search, Timer } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
@@ -24,9 +24,26 @@ export const Route = createFileRoute("/crops")({
 const seasons = ["All", "Kharif", "Rabi", "Zaid", "Year-round"] as const;
 
 function CropsPage() {
+  const [term, setTerm] = useState("");
   const [query, setQuery] = useState("");
   const [season, setSeason] = useState<(typeof seasons)[number]>("All");
   const [crop, setCrop] = useState("All");
+
+  // Live search: apply what is typed shortly after typing stops.
+  useEffect(() => {
+    const id = setTimeout(() => setQuery(term), 200);
+    return () => clearTimeout(id);
+  }, [term]);
+
+  function runSearch(e: React.FormEvent) {
+    e.preventDefault();
+    setQuery(term);
+  }
+
+  function clearSearch() {
+    setTerm("");
+    setQuery("");
+  }
 
   const filtered = useMemo(
     () =>
