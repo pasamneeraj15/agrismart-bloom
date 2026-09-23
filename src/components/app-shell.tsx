@@ -172,6 +172,9 @@ export function AppShell({
                 <div className="mt-6">
                   <NavLinks onNavigate={() => setOpen(false)} />
                 </div>
+                <div className="mt-6">
+                  <UserCard onNavigate={() => setOpen(false)} />
+                </div>
               </SheetContent>
             </Sheet>
             <div className="min-w-0">
