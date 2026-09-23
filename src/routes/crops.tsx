@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Droplets, Search, Timer } from "lucide-react";
+import { Droplets, Search, Timer, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
@@ -63,16 +63,32 @@ function CropsPage() {
     <AppShell title="Crop catalog" subtitle="Growing, soil and pest profiles for your crops">
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="card-soft space-y-4 p-4 sm:p-5">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search crops, categories or keywords"
-              className="pl-9"
-              aria-label="Search crops"
-            />
-          </div>
+          <form onSubmit={runSearch} className="flex gap-2">
+            <div className="relative min-w-0 flex-1">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                placeholder="Search crops by name, category or keyword"
+                className="pl-9 pr-9"
+                aria-label="Search crops"
+              />
+              {term && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </div>
+            <Button type="submit" className="shrink-0 gap-2">
+              <Search className="size-4" />
+              <span className="hidden sm:inline">Search</span>
+            </Button>
+          </form>
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
               {["All", ...crops.map((c) => c.name)].map((name) => (
