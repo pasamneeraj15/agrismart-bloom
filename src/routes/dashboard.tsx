@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { alerts, farmMetrics, forecast, recommendations, tasks as seedTasks, weatherNow } from "@/data/agri";
+import { firstName, useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -37,9 +38,20 @@ function Dashboard() {
   const [tasks, setTasks] = useState(seedTasks);
   const pending = tasks.filter((t) => !t.done);
   const urgentAlerts = alerts.filter((a) => !a.read).slice(0, 3);
+  const { displayName, user } = useAuth();
+
+  const greeting = displayName ? `Welcome, ${firstName(displayName)}!` : "Welcome!";
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
 
   return (
-    <AppShell title="Good morning, Ramesh" subtitle="Wednesday, 9 September · Warangal, Telangana">
+    <AppShell
+      title={greeting}
+      subtitle={user ? `${today} · Your farm at a glance` : `${today} · Demo farm — log in to see your own data`}
+    >
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {farmMetrics.map((m) => {
