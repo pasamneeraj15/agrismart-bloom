@@ -82,8 +82,30 @@ function SettingsPage() {
 
   const set = (key: keyof typeof profile) => (value: string) => setProfile((p) => ({ ...p, [key]: value }));
 
-  function save(e: React.FormEvent) {
+  async function save(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("Log in to save your farm profile");
+      return;
+    }
+
+    setSaving(true);
+    const { error } = await supabase.from("profiles").upsert({
+      id: user.id,
+      display_name: profile.name.trim() || null,
+      phone: profile.phone || null,
+      village: profile.village || null,
+      farm_name: profile.farmName || null,
+      acres: profile.acres ? Number(profile.acres) : null,
+      main_crop: profile.mainCrop || null,
+    });
+    setSaving(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Settings saved");
   }
 
