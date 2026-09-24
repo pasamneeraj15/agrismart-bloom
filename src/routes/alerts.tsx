@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, Bell, BellOff, Bug, CheckCheck, CloudSun, Droplets, IndianRupee, ListTodo } from "lucide-react";
-import { useMemo, useState } from "react";
+import { AlertTriangle, Bell, BellOff, Bug, CheckCheck, CloudSun, Droplets, IndianRupee, ListTodo, Search, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/app-shell";
@@ -46,18 +46,31 @@ const filters = ["All", "Unread", "Weather", "Pest", "Irrigation", "Task", "Mark
 function AlertsPage() {
   const [items, setItems] = useState(seedAlerts);
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
+  const [term, setTerm] = useState("");
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const id = setTimeout(() => setQuery(term), 200);
+    return () => clearTimeout(id);
+  }, [term]);
 
   const unread = items.filter((a) => !a.read).length;
 
-  const visible = useMemo(
-    () =>
-      items.filter((a) => {
-        if (filter === "All") return true;
-        if (filter === "Unread") return !a.read;
-        return a.category === filter;
-      }),
-    [items, filter],
-  );
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return items.filter((a) => {
+      const matchesQuery =
+        !q ||
+        a.title.toLowerCase().includes(q) ||
+        a.detail.toLowerCase().includes(q) ||
+        a.category.toLowerCase().includes(q) ||
+        a.severity.toLowerCase().includes(q);
+      if (!matchesQuery) return false;
+      if (filter === "All") return true;
+      if (filter === "Unread") return !a.read;
+      return a.category === filter;
+    });
+  }, [items, filter, query]);
 
   function toggleRead(id: string) {
     setItems((list) => list.map((a) => (a.id === id ? { ...a, read: !a.read } : a)));
@@ -79,6 +92,42 @@ function AlertsPage() {
       }
     >
       <div className="mx-auto max-w-4xl space-y-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setQuery(term);
+          }}
+          className="card-soft flex gap-2 p-4"
+        >
+          <div className="relative min-w-0 flex-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              placeholder="Search alerts by title, detail or category"
+              className="pl-9 pr-9"
+              aria-label="Search alerts"
+            />
+            {term && (
+              <button
+                type="button"
+                onClick={() => {
+                  setTerm("");
+                  setQuery("");
+                }}
+                aria-label="Clear search"
+                className="absolute right-2 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-muted"
+              >
+                <X className="size-4" />
+              </button>
+            )}
+          </div>
+          <Button type="submit" className="shrink-0 gap-2">
+            <Search className="size-4" />
+            <span className="hidden sm:inline">Search</span>
+          </Button>
+        </form>
+
         <div className="card-soft flex flex-wrap gap-2 p-4">
           {filters.map((f) => (
             <Button
