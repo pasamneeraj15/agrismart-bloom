@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Bug, CloudSun, FlaskConical, Leaf, ScanLine, Sprout, ArrowRight } from "lucide-react";
+import { Bell, Bug, CloudSun, FlaskConical, Leaf, Sprout, ArrowRight } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -17,12 +17,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "AgriSmart helps farmers plan crops, pick the right pesticides and fertilizers, track weather, and detect plant disease from a leaf photo.",
+          "AgriSmart helps farmers plan crops, pick the right pesticides and fertilizers, and track weather and farm alerts.",
       },
       { property: "og:title", content: "AgriSmart — Smart Farming, Better Future" },
       {
         property: "og:description",
-        content: "Crop guides, pesticide and fertilizer advice, weather advisories and leaf disease scanning in one place.",
+        content: "Crop guides, pesticide and fertilizer advice, weather advisories and farm alerts in one place.",
       },
     ],
   }),
@@ -34,7 +34,6 @@ const features = [
   { icon: Bug, title: "Plant protection", body: "Which categories target which pests, with safety guidance by crop." },
   { icon: FlaskConical, title: "Fertilizer guide", body: "Organic, inorganic and biofertilizer options with exact rates." },
   { icon: CloudSun, title: "Weather advisories", body: "Five-day forecast translated into spray and irrigation decisions." },
-  { icon: ScanLine, title: "Plant scan", body: "Upload a leaf photo and get a diagnosis with a treatment plan." },
   { icon: Bell, title: "Farm alerts", body: "Pest thresholds, storm warnings and task reminders in one feed." },
 ];
 
