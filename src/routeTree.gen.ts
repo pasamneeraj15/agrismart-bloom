@@ -17,7 +17,6 @@ import { Route as FertilizersRouteImport } from './routes/fertilizers'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PesticidesRouteImport } from './routes/pesticides'
 import { Route as RegisterRouteImport } from './routes/register'
-import { Route as ScanRouteImport } from './routes/scan'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as CropsCropIdRouteImport } from './routes/crops.$cropId'
@@ -62,11 +61,6 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScanRoute = ScanRouteImport.update({
-  id: '/scan',
-  path: '/scan',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -92,7 +86,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
-  '/scan': typeof ScanRoute
   '/settings': typeof SettingsRoute
   '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
@@ -106,7 +99,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
-  '/scan': typeof ScanRoute
   '/settings': typeof SettingsRoute
   '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
@@ -121,7 +113,6 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pesticides': typeof PesticidesRoute
   '/register': typeof RegisterRoute
-  '/scan': typeof ScanRoute
   '/settings': typeof SettingsRoute
   '/weather': typeof WeatherRoute
   '/crops/$cropId': typeof CropsCropIdRoute
@@ -137,7 +128,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/pesticides'
     | '/register'
-    | '/scan'
     | '/settings'
     | '/weather'
     | '/crops/$cropId'
@@ -151,7 +141,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/pesticides'
     | '/register'
-    | '/scan'
     | '/settings'
     | '/weather'
     | '/crops/$cropId'
@@ -165,7 +154,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/pesticides'
     | '/register'
-    | '/scan'
     | '/settings'
     | '/weather'
     | '/crops/$cropId'
@@ -180,7 +168,6 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PesticidesRoute: typeof PesticidesRoute
   RegisterRoute: typeof RegisterRoute
-  ScanRoute: typeof ScanRoute
   SettingsRoute: typeof SettingsRoute
   WeatherRoute: typeof WeatherRoute
 }
@@ -243,13 +230,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/scan': {
-      id: '/scan'
-      path: '/scan'
-      fullPath: '/scan'
-      preLoaderRoute: typeof ScanRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -293,7 +273,6 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PesticidesRoute: PesticidesRoute,
   RegisterRoute: RegisterRoute,
-  ScanRoute: ScanRoute,
   SettingsRoute: SettingsRoute,
   WeatherRoute: WeatherRoute,
 }
