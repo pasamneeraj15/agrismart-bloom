@@ -188,24 +188,3 @@
   }
 }
 
-@utility scan-sweep {
-  position: absolute;
-  inset-inline: 0;
-  height: 30%;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    color-mix(in oklab, var(--color-primary) 45%, transparent),
-    transparent
-  );
-  animation: agri-sweep 1.6s ease-in-out infinite;
-}
-
-@keyframes agri-sweep {
-  0% {
-    top: -30%;
-  }
-  100% {
-    top: 100%;
-  }
-}
