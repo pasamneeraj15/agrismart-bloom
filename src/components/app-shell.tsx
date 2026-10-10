@@ -6,7 +6,6 @@ import {
   CloudSun,
   LayoutDashboard,
   Menu,
-  ScanLine,
   Settings,
   Sprout,
   FlaskConical,
@@ -29,13 +28,12 @@ const nav = [
   { to: "/pesticides", label: "Pesticides", icon: Bug },
   { to: "/fertilizers", label: "Fertilizers", icon: FlaskConical },
   { to: "/weather", label: "Weather", icon: CloudSun },
-  { to: "/scan", label: "Plant Scan", icon: ScanLine },
   { to: "/alerts", label: "Alerts", icon: Bell },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 const mobileNav = nav.filter((item) =>
-  ["/dashboard", "/crops", "/scan", "/weather", "/alerts"].includes(item.to),
+  ["/dashboard", "/crops", "/weather", "/alerts"].includes(item.to),
 );
 
 const unread = alerts.filter((a) => !a.read).length;
@@ -200,7 +198,7 @@ export function AppShell({
       </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur lg:hidden">
-        <ul className="grid grid-cols-5">
+        <ul className="grid grid-cols-4">
           {mobileNav.map(({ to, label, icon: Icon }) => (
             <li key={to}>
               <Link

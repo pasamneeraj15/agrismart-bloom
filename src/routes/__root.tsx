@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -36,7 +37,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -82,13 +83,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AgriSmart — Smart Farming, Better Future" },
       {
         name: "description",
-        content: "Crop guides, pesticide and fertilizer advice, weather advisories and leaf disease scanning for farmers.",
+        content: "Crop guides, pesticide and fertilizer advice, weather advisories and farm alerts for farmers.",
       },
       { name: "author", content: "AgriSmart" },
       { property: "og:title", content: "AgriSmart — Smart Farming, Better Future" },
       {
         property: "og:description",
-        content: "Crop guides, pesticide and fertilizer advice, weather advisories and leaf disease scanning for farmers.",
+        content: "Crop guides, pesticide and fertilizer advice, weather advisories and farm alerts for farmers.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

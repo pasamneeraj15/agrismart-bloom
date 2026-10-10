@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  CheckCircle2,
   CloudSun,
   Droplets,
   Lightbulb,
@@ -199,11 +198,6 @@ function Dashboard() {
               <Wind className="size-4 shrink-0 text-primary" />
               Storm expected Friday — finish spraying today.
             </div>
-            <Button asChild className="mt-4 w-full gap-2">
-              <Link to="/scan">
-                <CheckCircle2 className="size-4" /> Scan a plant leaf
-              </Link>
-            </Button>
           </section>
         </div>
       </div>
